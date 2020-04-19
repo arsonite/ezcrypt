@@ -4,6 +4,7 @@ import re
 
 print('\nWelcome to the convenient hasher "ezcrypt"\n')
 print('Type in "exit" at any time to close the CLI\n')
+print('Type in "reset" at any time to choose a variable to reset\n')
 
 def out(statement=None):
     inputIndicator = '> '
@@ -28,10 +29,12 @@ while loop:
         continue
     elif inputHash == 'reset':
         var = out('\nEnter the variable you want to reset:')
-        if var == prefix:
+        if var == 'prefix':
             prefix = out('\nPlease enter your desired prefix:')
-        elif var == length:
+        elif var == 'length':
             length = re.findall(r'\d+', out('\nPlease enter your desired output length:'))[0]
+        elif var == 'copyToClipboard':
+            copyToClipboard = True if out('\nCopy result to clipboard instead of displaying it? (Y/N)') == 'Y' else False  
         continue
 
     output = md5.update(bytes(inputHash, encoding='utf-8'))
