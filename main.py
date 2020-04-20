@@ -12,13 +12,12 @@ def out(statement=None):
         print(f'{statement}\n')
     return input(inputIndicator)
 
-loop = True
-prefix = out('Please enter your desired prefix:')
-length = list(map(int, re.findall(r'\d+', out('\nPlease enter your desired output length:'))))[0]
-copyToClipboard = True if out('\nCopy result to clipboard instead of displaying it? (Y/N)') == 'Y' else False
-availableHashAlgorithms = list()
-selectedHashAlgorithm = ''
+options = dict()
+options['prefix'] = out('Please enter your desired prefix:')
+options['length'] = list(map(int, re.findall(r'\d+', out('\nPlease enter your desired output length:'))))[0]
+options['clipboard'] = True if out('\nCopy result to clipboard instead of displaying it? (Y/N)') == 'Y' else False
 
+loop = True
 while loop:
     md5 = hashlib.md5()
 
@@ -30,17 +29,17 @@ while loop:
     elif inputHash == 'reset':
         var = out('\nEnter the variable you want to reset:')
         if var == 'prefix':
-            prefix = out('\nPlease enter your desired prefix:')
+             options['prefix'] = out('\nPlease enter your desired prefix:')
         elif var == 'length':
-            length = re.findall(r'\d+', out('\nPlease enter your desired output length:'))[0]
-        elif var == 'copyToClipboard':
-            copyToClipboard = True if out('\nCopy result to clipboard instead of displaying it? (Y/N)') == 'Y' else False  
+            options['length'] = re.findall(r'\d+', out('\nPlease enter your desired output length:'))[0]
+        elif var == 'clipboard':
+            options['clipboard'] = True if out('\nCopy result to clipboard instead of displaying it? (Y/N)') == 'Y' else False  
         continue
 
     output = md5.update(bytes(inputHash, encoding='utf-8'))
-    output = prefix + str(md5.hexdigest()).upper()[:length]
+    output = options.get('prefix') + str(md5.hexdigest()).upper()[:options.get('length')]
 
-    if copyToClipboard:
+    if options.get('clipboard'):
         clipboard.copy(output)
     else:
         print(f'\nOutput: {output}')
