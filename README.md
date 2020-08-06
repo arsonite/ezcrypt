@@ -1,1 +1,1 @@
-### Go Hash Yourself
+# Go Hash Yourself
